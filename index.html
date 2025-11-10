@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KamoAzmiu NFT Marketplace 🐻</title>
-
 <style>
+/* Sənin CSS eyni qalır, responsive və touch-friendly */
 body { margin:0;font-family:'Poppins',sans-serif; background:radial-gradient(circle at top,#0c0c0c,#050505); color:#fff; display:flex; justify-content:center; align-items:center; min-height:100vh;}
 .main-card{width:95%;max-width:1200px;background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);border-radius:30px;padding:40px;box-shadow:0 20px 60px rgba(255,105,0,0.5);display:flex;flex-direction:column;align-items:center;}
 .center-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(15px);padding:30px 50px;border-radius:25px;text-align:center;box-shadow:0 15px 50px rgba(255,105,0,0.4);margin-bottom:30px;}
@@ -41,13 +41,10 @@ body { margin:0;font-family:'Poppins',sans-serif; background:radial-gradient(cir
 </div>
 
 <script type="module">
-import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.8.0/dist/ethers.esm.min.js";
-import { Seaport, connectWallet, fulfillOrder, getNFTContractAddress } from './SeaportUtils.js';
+import { connectWallet, fulfillOrder, PROXY_ADDRESS } from './SeaportUtils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-
   const BACKEND_URL = "https://sonsonson.onrender.com";
-  const PROXY_ADDRESS = "0x9656448941C76B79A39BC4ad68f6fb9F01181EC7"; 
 
   let provider, signer, userAddress, seaport;
   let nftData = [], currentPage = 1;
@@ -67,7 +64,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       signer = wallet.signer;
       userAddress = wallet.address;
 
-      seaport = new Seaport(signer, { contractAddress: PROXY_ADDRESS });
+      seaport = new (await import("https://cdn.jsdelivr.net/npm/@opensea/seaport-js@latest/dist/seaport.esm.min.js")).Seaport(signer, { contractAddress: PROXY_ADDRESS });
 
       connectBtn.style.display = "none";
       disconnectBtn.style.display = "inline-block";
